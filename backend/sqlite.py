@@ -2,9 +2,9 @@ import sqlite3
 import pandas as pd 
 from stock import Stock 
 
-conn = sqlite3.connect('stocks.db')
+# conn = sqlite3.connect('stocks.db')
 
-c = conn.cursor()
+# c = conn.cursor()
 
 # c.execute("""CREATE TABLE stocks (symbol text, security text, sector text, location text, firstAdded text, founded text)""")
 
@@ -57,7 +57,9 @@ class Sqlite:
 
 # database = Sqlite(); 
 
-# # database.getStocks(); 
+# database.getStocks(); 
+
+# conn.close()
 
 # stock = database.search('KMB')
 
@@ -65,7 +67,5 @@ class Sqlite:
 # print(stock)
 
 # print(stock[0][0]) 
-
-# conn.close()
 
   
