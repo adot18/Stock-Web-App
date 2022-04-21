@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'; 
+import Chart from './Chart';
 import { 
   Box, 
   TextField, 
@@ -8,16 +9,36 @@ import {
   FormControlLabel,
   Alert
 } from '@mui/material'
+
+
+import { 
+  LineChart, 
+  AreaChart,
+  Area,
+  CartesianGrid, 
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  Line,
+  ResponsiveContainer
+} from 'recharts';
 import styles from '../styles';
 
 const Home = () => {
 
+  //Chart State
+  const [showChart, setShowChart] = useState(false); 
+
   //Switcher State
-  const [searchTicker, setSearchTicker] = useState(true); 
+  const [searchTicker, setSearchTicker] = useState(false); 
   const [searchMessage, setSearchMessage] = useState('Search by ticker symbol'); 
   
   //Stock State
   const [stock, setStock] = useState(''); 
+  const [stockInfo, setStockInfo] = useState({}); 
+  // const [stockPrices, setStockPrices] = useState([]); 
+  const [stockPrices, setStockPrices] = useState(null); 
 
   // Error State
   const [error, setError] = useState(false); 
@@ -29,25 +50,44 @@ const Home = () => {
     return (!stock || stock.length === 0);
   }
 
+  /**
+   * Gets called when the user clicks search button
+   * @param {*} e 
+   * @returns 
+   */
   const handleSearch = async (e) => {
     e.preventDefault(); 
+
+    // console.log(stockPrices.length)
+
 
     if(isEmpty(stock)) {
       setError(true); 
       setErrorMsg('Invalid Input!'); 
       return; 
-    }
+    } 
+    
+    // else if(stockPrices.length >= 1) {
+
+    //   setStockPrices([]); 
+    //   console.log('bruh')
+    //   console.log(stockPrices.length)
+    //   return; 
+
+    // }
+
+    // setStockPrices([])
+
 
     if(searchTicker) {
 
-      // search by ticker endpoint
-      await fetchByTicker(); 
+      console.log('loading...')
+      await fetchByTicker(); // search by ticker endpoint
     
     } else {
 
       // search my security
     }
-
   }; 
 
   const fetchByTicker = async () => {
@@ -68,7 +108,17 @@ const Home = () => {
 
     const result = await response.json(); 
 
-    console.log(result); 
+    // console.log('result: ' + JSON.stringify(result)); 
+    // console.log('stock info' + JSON.stringify(result.stockInfo)); 
+
+    setShowChart(true); 
+    setStockInfo(JSON.stringify(result.stockInfo)); 
+    // setStockPrices(JSON.stringify(result.closingPrices)); 
+    //stockPrices.push(result) //works but bug 
+
+    setStockPrices(result); 
+    
+    //console.log(stockPrices); 
 
   }; 
 
@@ -88,11 +138,27 @@ const Home = () => {
 
   useEffect(() => {
     setError(false); 
+    // setShowChart(true); 
     setErrorMsg(''); 
   }, [stock])
 
+
+  useEffect(() => {
+
+    if(stockPrices !== null) {
+      setShowChart(true)
+    }
+
+    
+
+  }, [stockPrices])
+
+
+
+
+
   return(
-    <Container maxWidth = 'sm'>
+    <Container maxWidth = 'lx'>
 
       {error && (
         <Alert severity="error">{errorMsg}</Alert>
@@ -122,6 +188,40 @@ const Home = () => {
       }}/>} 
       label={searchMessage}
       />
+
+      {showChart && (
+        // <Chart stockPrices={stockPrices} data = {data}></Chart> 
+
+         <Box className = 'graph'>
+         <AreaChart 
+          width={730} 
+          height={250}
+          data={stockPrices.closingPrices}
+          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+          <defs>
+          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
+            <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
+          </linearGradient>
+          <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
+            <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
+          </linearGradient>
+          </defs>
+          <XAxis dataKey='Date' />
+          <YAxis/>
+          <CartesianGrid strokeDasharray="3 3" />
+          <Tooltip />
+          <Area type="monotone" dataKey='Price' stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
+        </AreaChart>
+      </Box>
+      )}
+    
+
+
+
+
+
     </Container>
 
   ); 
