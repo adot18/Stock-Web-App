@@ -28,13 +28,28 @@ def get(symbol):
   conn = sqlite3.connect('stocks.db')
   c = conn.cursor()    
   c.execute('SELECT * FROM stocks WHERE symbol=:symbol', {'symbol': symbol})
-  # when searching for AMC. it gives an error bc amc is not in s&p but its in yfiance 
+
   try:
     stock = c.fetchall()[0]
-    priceData = closingPrices(symbol)
 
   except:
-    abort(404, 'Could not find stock.')    
+    try:
+      priceData = closingPrices(symbol)
+
+    except:
+
+      abort(404, 'Could not find stock')
+
+    return {
+    "stockInfo":
+      {
+        "standardPoor": priceData.get('standardPoor')
+      },
+    "closingPrices": priceData.get('closingPrices'),
+  }
+
+  priceData = closingPrices(symbol)
+
   
   return {
     "stockInfo":
@@ -47,8 +62,6 @@ def get(symbol):
         "founded": stock[5],
         "standardPoor": priceData.get('standardPoor')
       },
-    "xAxisKey": 'Date',
-    "dataKey": 'Price', 
     "closingPrices": priceData.get('closingPrices'),
   }
 
@@ -82,7 +95,6 @@ def getSecurity(security):
 # @app.route('/test/<symbol>')
 def closingPrices(symbol):
   ''''Uses yFinance library for closing price of last 12months'''
-
   stock = yf.Ticker(symbol); 
   
   history = stock.history(period='12mo', interval='1d')
@@ -90,6 +102,9 @@ def closingPrices(symbol):
   closePrice = history.loc[:, 'Close']; 
 
   stockData = json.loads(closePrice.to_json(date_format='iso'))
+
+  if(len(stockData) == 0):
+    abort(404, 'Could not find stock :(')
 
   arr = []
 
@@ -108,7 +123,7 @@ def closingPrices(symbol):
   }
 
 def inSP(symbol): 
-  ''''Returns a true if the stock symbol is in the S&P 500 else false'''
+  ''''Returns true if the stock symbol is in the S&P 500 else false'''
   conn = sqlite3.connect('stocks.db')
   c = conn.cursor()    
   c.execute('SELECT * FROM stocks WHERE symbol=:symbol', {'symbol': symbol})
