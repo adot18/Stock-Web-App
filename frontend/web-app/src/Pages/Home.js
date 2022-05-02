@@ -7,7 +7,8 @@ import {
   Button, 
   Switch,
   FormControlLabel,
-  Alert
+  Alert,
+  Grid
 } from '@mui/material'
 
 
@@ -192,41 +193,37 @@ const Home = () => {
       {showChart && (
         // <Chart stockPrices={stockPrices} data = {data}></Chart> 
 
-         <Box className = 'graph'>
-         <AreaChart 
-          width={730} 
-          height={250}
-          data={stockPrices.closingPrices}
-          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-          <defs>
-          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
-            <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
-          </linearGradient>
-          <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
-            <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
-          </linearGradient>
-          </defs>
-          <XAxis dataKey='Date' />
-          <YAxis/>
-          <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip />
-          <Area type="monotone" dataKey='Price' stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
-        </AreaChart>
-      </Box>
+        
+        <Box className = 'center-me'>
+          <AreaChart 
+            width={870} 
+            height={380}
+            data={stockPrices.closingPrices}
+            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+            <defs>
+            <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#23d398" stopOpacity={0.8}/>
+              <stop offset="95%" stopColor="#23d398" stopOpacity={0}/>
+            </linearGradient>
+            <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor="#23d398" stopOpacity={0.8}/>
+              <stop offset="95%" stopColor="#23d398" stopOpacity={0}/>
+            </linearGradient>
+            </defs>
+            <XAxis dataKey='Date' />
+            <YAxis/>
+            <CartesianGrid strokeDasharray="3 3" />
+            <Tooltip />
+            <Area type="monotone" dataKey='Price' stroke="#23d398" fillOpacity={1} fill="url(#colorUv)" />
+          </AreaChart>
+        </Box>
       )}
-    
-
-
-
-
-
     </Container>
-
   ); 
 }; 
 
 export default Home; 
 
 //       control ={<Switch defaultChecked onChange = {(e) => {setSearchTicker(e.target.checked)}}/>} 
+//             width={730} 
+//            height={250}

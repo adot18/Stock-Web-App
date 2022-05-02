@@ -45,8 +45,8 @@ def get(symbol):
       {
         "standardPoor": priceData.get('standardPoor')
       },
-    "closingPrices": priceData.get('closingPrices'),
-  }
+      "closingPrices": priceData.get('closingPrices'),
+    }
 
   priceData = closingPrices(symbol)
 

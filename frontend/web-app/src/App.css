@@ -3,3 +3,12 @@
   margin-top: 2000px;
 
 } */
+
+
+.center-me {
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width:auto
+}
