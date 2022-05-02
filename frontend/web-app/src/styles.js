@@ -30,6 +30,18 @@ const styles = {
 
   inputField: {
     input: {textAlign: "center"}
+  },
+
+  center: {
+    display:'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    w:'auto'
+  },
+
+  errorBanner: {
+    mt: '10px'
   }
 }; 
 
