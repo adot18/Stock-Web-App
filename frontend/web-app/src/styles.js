@@ -42,6 +42,10 @@ const styles = {
 
   errorBanner: {
     mt: '10px'
+  },
+
+  about: {
+    m: '35px'
   }
 }; 
 

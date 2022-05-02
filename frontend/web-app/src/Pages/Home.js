@@ -25,7 +25,7 @@ const Home = () => {
   // Error State
   const [error, setError] = useState(false); 
   const [errorMsg, setErrorMsg] = useState(''); 
-  const [infoSpinner, setInfoSpinner] = useState('error'); 
+  const [infoSpinner, setInfoSpinner] = useState('info'); 
 
   // Loading State 
   const [isLoading, setIsLoading] = useState(false); 
