@@ -25,6 +25,7 @@ api = Api(app)
 
 @app.route('/stocks/symbol/<symbol>')
 def get(symbol):
+  '''' Searches db for ticker symbol and calls closingPrices() '''
   conn = sqlite3.connect('stocks.db')
   c = conn.cursor()    
   c.execute('SELECT * FROM stocks WHERE symbol=:symbol', {'symbol': symbol})
@@ -49,7 +50,6 @@ def get(symbol):
     }
 
   priceData = closingPrices(symbol)
-
   
   return {
     "stockInfo":
@@ -67,6 +67,7 @@ def get(symbol):
 
 @app.route('/stocks/security/<security>')
 def getSecurity(security):
+  '''' Searches db for security and calls closingPrices() NOTE: not currently using this endpoint '''
   conn = sqlite3.connect('stocks.db')
   c = conn.cursor()
   
@@ -92,7 +93,6 @@ def getSecurity(security):
     "closingPrices": priceData.get('closingPrices'),
   }
 
-# @app.route('/test/<symbol>')
 def closingPrices(symbol):
   ''''Uses yFinance library for closing price of last 12months'''
   stock = yf.Ticker(symbol); 
@@ -134,9 +134,6 @@ def inSP(symbol):
     return False
   
   return True
-
-
-
 
 if __name__ == "__main__":
   app.run(debug=True)

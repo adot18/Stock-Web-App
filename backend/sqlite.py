@@ -44,28 +44,11 @@ class Sqlite:
     return c.fetchall()
 
   def searchSecurity(self, security):
+    """" search for security (full company name) """    
+
     c.execute('SELECT * FROM stocks WHERE security=:security', {'security': security})
     return c.fetchone()
 
   def printEverything(self):
    c.execute('SELECT * FROM stocks')
    return c.fetchone()
-
-
-
-
-
-# database = Sqlite(); 
-
-# database.getStocks(); 
-
-# conn.close()
-
-# stock = database.search('KMB')
-
-# # stock = database.searchSecurity('Kimberly-Clark')
-# print(stock)
-
-# print(stock[0][0]) 
-
-  

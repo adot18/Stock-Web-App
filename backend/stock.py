@@ -7,7 +7,6 @@ class Stock:
     self.__added = added
     self.__founded = founded
 
-
   @property
   def symbol(self):
     """" Getter for symbol variable """

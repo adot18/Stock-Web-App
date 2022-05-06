@@ -11,7 +11,7 @@ import {
 } from '@mui/material'
 
 const Home = () => {
-
+  //de-structuring style object
   const { center, errorBanner } = styles; 
 
   //Chart State
@@ -32,6 +32,12 @@ const Home = () => {
 
   const { inputBox, inputField} = styles; 
 
+  /**
+   * Check to see if the stock string is empty or not
+   * @param {*} stock 
+   * @returns a boolean. True if the stock is not empty and false
+   * if the stock is empty
+   */
   const isEmpty = (stock) => {
     return (!stock || stock.length === 0);
   }
@@ -58,7 +64,7 @@ const Home = () => {
   
   }; 
 
-  /*
+  /**
   * Fetches the backend api by passing a stock ticker symbol
   */
   const fetchByTicker = async () => {
@@ -95,15 +101,20 @@ const Home = () => {
     
   }; 
 
-
+  /**
+   * Once the user starts typing the error banner will disappear
+   */
   useEffect(() => {
     setError(false); 
     setErrorMsg(''); 
   }, [stock])
 
-
+  /**
+   * If the stockPrices array is not null then the shart will show. 
+   * Note that this state is being passed on as a prop to the child 
+   * component
+   */
   useEffect(() => {
-
     if(stockPrices !== null) {
       setShowChart(true)
     }
@@ -146,9 +157,6 @@ const Home = () => {
       : 
         <Chart stockPrices={stockPrices} showChart = {showChart}/>
       }
-    
-
-
     
     </Container>
   ); 

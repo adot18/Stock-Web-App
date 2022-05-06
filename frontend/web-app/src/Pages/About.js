@@ -5,10 +5,8 @@ import { Typography,
 } 
 from '@mui/material';
 
-
-
 const About = () => {
-
+  //de-structuring style object
   const { about } = styles; 
 
   return(
